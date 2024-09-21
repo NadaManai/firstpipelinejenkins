@@ -1,21 +1,36 @@
 pipeline {
-    agent any 
+    agent any
+
+    triggers {
+        pollSCM('H/1 * * * *')
+    }
 
     stages {
         stage('Récupération du code source') {
             steps {
-                // Récupérer le code depuis le référentiel Git
-                git 'https://github.com/NadaManai/firstpipelinejenkins.git'
+                checkout scm
             }
         }
+
         stage('Afficher la date système') {
             steps {
-                // Afficher la date système
                 script {
-                    def date = new Date()
-                    echo "Date actuelle : ${date.format('yyyy-MM-dd HH:mm:ss')}"
+                    echo "Date système : ${new Date()}"
                 }
             }
+        }
+
+        stage('Exécuter le code') {
+            steps {
+                // Exécuter le fichier hello.py
+                sh 'python3 hello.py'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Fin du build'
         }
     }
 }
