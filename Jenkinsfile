@@ -1,26 +1,21 @@
 pipeline {
-    agent any
+    agent any 
 
     stages {
-        stage('Checkout') {
+        stage('Récupération du code source') {
             steps {
-                // Récupérer le code source depuis le référentiel Git
-                git url: 'https://github.com/NadaManai/firstpipelinejenkins.git'
+                // Récupérer le code depuis le référentiel Git
+                git 'https://github.com/NadaManai/firstpipelinejenkins.git'
             }
         }
-
-        stage('Show Date') {
+        stage('Afficher la date système') {
             steps {
                 // Afficher la date système
                 script {
-                    def currentDate = new Date()
-                    echo "La date système est : ${currentDate}"
+                    def date = new Date()
+                    echo "Date actuelle : ${date.format('yyyy-MM-dd HH:mm:ss')}"
                 }
             }
         }
-    }
-
-    triggers {
-        // Aucune action de déclenchement ici
     }
 }
